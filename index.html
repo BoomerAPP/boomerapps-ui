@@ -80,7 +80,7 @@
 <div class="bottom-nav">
   <div class="nav-item active" onclick="setActive(this)"><span>🏠</span>HOME</div>
   <div class="nav-item" onclick="setActive(this)"><span>🕐</span>RIWAYAT</div>
-  <div class="nav-item" onclick="window.location.href='admin.html'"><span>👑</span>ADMIN</div>
+  <div class="nav-item" <div class="nav-item" onclick="askAdminCode()"><span>👑</span>ADMIN</div>
   <div class="nav-item" onclick="window.location.href='login.html'"><span>🔑</span>SIGN IN</div>
   <div class="nav-item" onclick="setActive(this)"><span>⚙️</span>PENGATURAN</div>
 </div>
@@ -288,6 +288,14 @@ async function sendPayload() {
     alert('Error: ' + err.message);
   }
 }
+  function askAdminCode() {
+  const code = prompt('Masukkan kode akses admin:');
+  if (code === '9989') {
+    window.location.href = 'admin.html';
+  } else if (code !== null) {
+    alert('Kode akses salah!');
+  }
+  }
 </script>
 
 </body>
