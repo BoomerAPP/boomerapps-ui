@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>BoomerAPPS</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.control-bug-box { background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 16px; padding: 16px; margin-bottom: 20px; }
+.control-bug-box h3 { font-size: 14px; font-weight: 700; margin-bottom: 8px; color: #3b82f6; }
+.info-text { font-size: 11px; color: #94a3b8; margin-bottom: 12px; line-height: 1.5; }
+.status-bug { display: flex; flex-wrap: wrap; gap: 8px; }
+.bug-tag { font-size: 11px; padding: 4px 10px; border-radius: 6px; font-weight: 600; }
+.bug-tag.on { background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); }
+.bug-tag.off { background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); }
+.bug-tag.loading { background: rgba(148, 163, 184, 0.15); color: #94a3b8; }
+</style>
+</head>
+<body>
+
+<div class="app-container">
+
+  <div class="header">
+    <div id="clock">--:--</div>
+    <div>📶 🔋</div>
+  </div>
+
+  <div class="control-bug-box">
+    <h3>🎯 Kontrol Bug Aktif</h3>
+    <p class="info-text">Fitur bug dikontrol oleh Admin melalui panel admin. Status saat ini:</p>
+    <div class="status-bug" id="bugStatus">
+      <span class="bug-tag loading">⏳ Memuat status...</span>
+    </div>
+  </div>
+
+  <div class="hero-banner">
+    <div class="hero-tag">Premium Toolkit</div>
+    <h1 class="hero-title">BoomerAPPS</h1>
+    <div class="hero-credits">CREDITS @VrdanthZZ</div>
+    <p class="hero-subtitle">Premium Android Toolkit</p>
+    <button class="hero-btn" onclick="showToast('Start Now!')">Start Now →</button>
+  </div>
+
+  <div class="input-target" style="padding: 20px; margin-bottom: 10px;">
+    <h3 style="color: white; margin-bottom: 10px; font-size: 16px;">Input Target</h3>
+    <input type="text" id="targetInput" placeholder="Masukkan nomor target (contoh: 6285189918551)"
+      style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #8b5cf6; background: #1a1a2e; color: white; box-sizing: border-box; margin-bottom: 10px;">
+    <button onclick="sendPayload()"
+      style="width: 100%; padding: 12px; background: #8b5cf6; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">SEND PAYLOAD</button>
+  </div>
+
+  <div class="section-title">Features <span>See All</span></div>
+
+  <div class="features-grid">
+    <div class="feature-card" onclick="openModal('crash')">
+      <div class="icon-box icon-crash">⚡</div>
+      <div class="feature-text"><h4>Crash</h4><p>Features</p></div>
+    </div>
+    <div class="feature-card" onclick="openModal('multi')">
+      <div class="icon-box icon-multi">👥</div>
+      <div class="feature-text"><h4>Multi</h4><p>Target</p></div>
+    </div>
+    <div class="feature-card" onclick="openModal('fast')">
+      <div class="icon-box icon-fast">⏱️</div>
+      <div class="feature-text"><h4>Fast</h4><p>Execution</p></div>
+    </div>
+    <div class="feature-card" onclick="openModal('anti')">
+      <div class="icon-box icon-anti">🔋</div>
+      <div class="feature-text"><h4>Anti</h4><p>Lag</p></div>
+    </div>
+  </div>
+
+  <div class="feature-card premium-card">
+    <div class="icon-box icon-premium">🛡️</div>
+    <div class="feature-text"><h4>Premium</h4><p>Security</p></div>
+  </div>
+
+</div>
+
+<div class="bottom-nav">
+  <div class="nav-item active" onclick="setActive(this)"><span>🏠</span>HOME</div>
+  <div class="nav-item" onclick="setActive(this)"><span>🕐</span>RIWAYAT</div>
+  <div class="nav-item" onclick="setActive(this)"><span>👑</span>ADMIN</div>
+  <div class="nav-item" onclick="setActive(this)"><span>🔑</span>SIGN IN</div>
+  <div class="nav-item" onclick="setActive(this)"><span>⚙️</span>PENGATURAN</div>
+</div>
+
+<div id="bugModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 id="modalTitle">Fitur</h3>
+      <button onclick="closeModal()">×</button>
+    </div>
+    <div id="bugListContainer"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ==========================
+// KONFIGURASI API
+// ==========================
+const API_BASE = 'https://corsproxy.io/?url=' + encodeURIComponent('https://vercel-api-boomerapps.vercel.app');
+const API_KEY = 'boomer_secret_key_2025';
+
+// ==========================
+// CLOCK
+// ==========================
+function updateClock() {
+  const n = new Date();
+  const el = document.getElementById('clock');
+  if (!el) return;
+  el.textContent = String(n.getHours()).padStart(2, '0') + ':' + String(n.getMinutes()).padStart(2, '0');
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// ==========================
+// NAV ACTIVE
+// ==========================
+function setActive(el) {
+  document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ==========================
+// TOAST
+// ==========================
+function showToast(msg, type) {
+  const toast = document.getElementById('toast');
+  if (!toast) return;
+  toast.textContent = msg;
+  toast.className = 'toast show ' + (type || '');
+  setTimeout(() => toast.className = 'toast', 2500);
+}
+
+// ==========================
+// BUG FEATURES DATA
+// ==========================
+const bugFeatures = {
+  crash: {
+    title: '⚡ Crash Features',
+    items: [
+      { name: 'Crash NameTag', tag: 'NameTag' },
+      { name: 'Crash Headshot', tag: 'Headshot' },
+      { name: 'Crash Rank', tag: 'Rank' },
+      { name: 'Crash Lobby', tag: 'Lobby' },
+      { name: 'Crash Match', tag: 'Match' }
+    ]
+  },
+  multi: {
+    title: '👥 Multi Target',
+    items: [
+      { name: 'Multi NameTag', tag: 'NameTag' },
+      { name: 'Multi Headshot', tag: 'Headshot' },
+      { name: 'Multi Aimbot', tag: 'Aimbot' },
+      { name: 'Multi AutoKill', tag: 'AutoKill' },
+      { name: 'Multi Wallhack', tag: 'Wallhack' }
+    ]
+  },
+  fast: {
+    title: '⏱️ Fast Execution',
+    items: [
+      { name: 'Fast NameTag', tag: 'NameTag' },
+      { name: 'Fast Reload', tag: 'Reload' },
+      { name: 'Fast Switch', tag: 'Switch' },
+      { name: 'Fast Speed', tag: 'Speed' },
+      { name: 'Fast Fire', tag: 'Fire' }
+    ]
+  },
+  anti: {
+    title: '🔋 Anti Lag',
+    items: [
+      { name: 'Anti Lag NameTag', tag: 'NameTag' },
+      { name: 'Anti Lag FPS', tag: 'FPS' },
+      { name: 'Anti Lag Ping', tag: 'Ping' },
+      { name: 'Anti Lag Graphics', tag: 'Graphics' },
+      { name: 'Anti Lag Network', tag: 'Network' }
+    ]
+  }
+};
+
+// ==========================
+// MODAL
+// ==========================
+function openModal(type) {
+  const modal = document.getElementById('bugModal');
+  const title = document.getElementById('modalTitle');
+  const container = document.getElementById('bugListContainer');
+  const data = bugFeatures[type];
+
+  if (!modal || !title || !container || !data) return;
+
+  title.textContent = data.title;
+  container.innerHTML = '';
+
+  data.items.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'bug-item';
+    div.innerHTML = '<span class="bug-name">' + item.name + '</span><span class="bug-tag">' + item.tag + '</span>';
+    div.onclick = function() {
+      showToast('Anda memilih fitur: ' + item.name);
+    };
+    container.appendChild(div);
+  });
+
+  modal.style.display = 'flex';
+}
+
+function closeModal() {
+  const modal = document.getElementById('bugModal');
+  if (modal) modal.style.display = 'none';
+}
+
+// Tutup modal kalau klik di luar
+document.addEventListener('click', function(e) {
+  const modal = document.getElementById('bugModal');
+  if (!modal) return;
+  if (e.target === modal || (e.target.classList && e.target.classList.contains('close-btn'))) {
+    modal.style.display = 'none';
+  }
+});
+
+// ==========================
+// LOAD BUG STATUS
+// ==========================
+async function loadBugStatus() {
+  const container = document.getElementById('bugStatus');
+  if (!container) return;
+
+  try {
+    const res = await fetch(API_BASE + '/api/bug/config', {
+      method: 'GET',
+      headers: { 'X-API-Key': API_KEY }
+    });
+
+    if (!res.ok) throw new Error('Gagal konek');
+
+    const data = await res.json();
+    const config = data.config || data;
+
+    container.innerHTML = '';
+    Object.keys(config).forEach(key => {
+      const tag = document.createElement('span');
+      tag.className = 'bug-tag ' + (config[key] ? 'on' : 'off');
+      tag.textContent = (config[key] ? '✅ ' : '❌ ') + key.toUpperCase();
+      container.appendChild(tag);
+    });
+  } catch (err) {
+    container.innerHTML = '<span class="bug-tag off">❌ Gagal memuat status</span>';
+  }
+}
+
+window.addEventListener('load', loadBugStatus);
+
+// ==========================
+// SEND PAYLOAD
+// ==========================
+async function sendPayload() {
+  const target = document.getElementById('targetInput').value.trim();
+  if (!target) {
+    alert('Masukkan nomor target!');
+    return;
+  }
+
+  let nomor = target.replace(/\D/g, '');
+  if (nomor.startsWith('0')) nomor = '62' + nomor.slice(1);
+  else if (nomor.startsWith('8')) nomor = '62' + nomor;
+  else if (!nomor.startsWith('62')) nomor = '62' + nomor;
+
+  try {
+    const res = await fetch(API_BASE + '/api/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ target: nomor })
+    });
+
+    const data = await res.json();
+    console.log('Response:', data);
+
+    if (res.ok) {
+      alert('Payload terkirim ke ' + nomor);
+    } else {
+      alert('Gagal: ' + (data.error || 'Unknown error'));
+    }
+  } catch (err) {
+    alert('Error: ' + err.message);
+  }
+}
+</script>
+
+</body>
+</html>
