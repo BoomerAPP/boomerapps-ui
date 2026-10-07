@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Login - BoomerAPPS</title>
+<link rel="stylesheet" href="login.css">
+</head>
+<body>
+
+<div class="login-container">
+
+    <!-- HEADER BACK -->
+    <div class="back-btn" onclick="window.location.href='index.html'">
+        ←
+    </div>
+
+    <!-- LOGO & TITLE -->
+    <div class="logo-area">
+        <div class="logo-icon">🎮</div>
+        <h1 class="logo-title">BoomerAPPS</h1>
+        <p class="logo-sub">GTPS Private Server</p>
+    </div>
+
+    <!-- TAB SWITCHER -->
+    <div class="tab-switcher">
+        <div class="tab active" id="tabLogin" onclick="switchTab('login')">LOGIN</div>
+        <div class="tab" id="tabSignup" onclick="switchTab('signup')">SIGN UP</div>
+    </div>
+
+    <!-- FORM LOGIN -->
+    <div class="form-box" id="formLogin">
+        <div class="input-group">
+            <span class="input-icon">👤</span>
+            <input type="text" id="loginUser" placeholder="Username / GrowID" autocomplete="off">
+        </div>
+        <div class="input-group">
+            <span class="input-icon">🔒</span>
+            <input type="password" id="loginPass" placeholder="Password">
+        </div>
+        <div class="remember-row">
+            <label class="checkbox-label">
+                <input type="checkbox" id="rememberMe">
+                <span>Ingat Saya</span>
+            </label>
+            <span class="forgot-link" onclick="alert('Hubungi Admin di Telegram!')">Lupa Password?</span>
+        </div>
+        <button class="btn-submit" onclick="doLogin()">🔓 MASUK</button>
+    </div>
+
+    <!-- FORM SIGN UP -->
+    <div class="form-box hidden" id="formSignup">
+        <div class="input-group">
+            <span class="input-icon">👤</span>
+            <input type="text" id="regUser" placeholder="Username / GrowID" autocomplete="off">
+        </div>
+        <div class="input-group">
+            <span class="input-icon">📧</span>
+            <input type="email" id="regEmail" placeholder="Email">
+        </div>
+        <div class="input-group">
+            <span class="input-icon">🔒</span>
+            <input type="password" id="regPass" placeholder="Password">
+        </div>
+        <div class="input-group">
+            <span class="input-icon">🔐</span>
+            <input type="password" id="regPass2" placeholder="Konfirmasi Password">
+        </div>
+        <button class="btn-submit" onclick="doSignup()">✨ DAFTAR SEKARANG</button>
+    </div>
+
+    <!-- DIVIDER -->
+    <div class="divider">
+        <span>ATAU</span>
+    </div>
+
+    <!-- SOCIAL LOGIN -->
+    <div class="social-row">
+        <button class="social-btn" onclick="alert('Login via Google belum tersedia')">
+            <span>🌐</span> Google
+        </button>
+        <button class="social-btn" onclick="alert('Hubungi Admin Telegram untuk login GTPS')">
+            <span>📱</span> Telegram
+        </button>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="login-footer">
+        <p>© 2025 BoomerAPPS</p>
+        <p class="credit">CREDITS <span>@VrdanthZZ</span></p>
+    </div>
+
+</div>
+
+<!-- TOAST NOTIFICATION -->
+<div class="toast" id="toast"></div>
+
+<script src="login.js"></script>
+</body>
+</html>

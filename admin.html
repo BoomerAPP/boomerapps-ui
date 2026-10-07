@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Controller Bug - BoomerAPPS</title>
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<div class="admin-container">
+
+    <!-- HEADER -->
+    <div class="admin-header">
+        <div class="back-btn" onclick="window.location.href='index.html'">←</div>
+        <div class="header-title">
+            <h1>⚙️ Controller Bug</h1>
+            <p>Admin Panel - BoomerAPPS</p>
+        </div>
+        <div class="status-dot" id="statusDot" title="Status Koneksi VPS"></div>
+    </div>
+
+    <!-- STATUS VPS -->
+    <div class="vps-status" id="vpsStatus">
+        <div class="vps-icon">🔌</div>
+        <div class="vps-info">
+            <h4 id="vpsTitle">Menghubungkan ke VPS...</h4>
+            <p id="vpsDesc">Mengecek status server</p>
+        </div>
+        <button class="btn-refresh" onclick="checkVPS()">🔄</button>
+    </div>
+
+    <!-- INFO ADMIN -->
+    <div class="admin-info">
+        <div class="info-row">
+            <span>👤 Admin</span>
+            <span id="adminName">-</span>
+        </div>
+        <div class="info-row">
+            <span>🖥️ VPS Endpoint</span>
+            <span id="vpsEndpoint" class="mono">-</span>
+        </div>
+        <div class="info-row">
+            <span>⏱️ Uptime</span>
+            <span id="vpsUptime">-</span>
+        </div>
+    </div>
+
+    <!-- CONTROL BUG -->
+    <div class="section-title">🎯 Kontrol Fitur Bug</div>
+
+    <div class="control-list" id="controlList">
+        <!-- Item akan di-generate oleh JavaScript -->
+    </div>
+
+    <!-- ACTION BUTTONS -->
+    <div class="action-buttons">
+        <button class="btn-save" onclick="saveConfig()">
+            💾 Simpan Perubahan
+        </button>
+        <button class="btn-reset" onclick="resetConfig()">
+            🔄 Reset Default
+        </button>
+    </div>
+
+    <!-- LOG AKTIVITAS -->
+    <div class="section-title">📋 Log Aktivitas</div>
+    <div class="log-box" id="logBox">
+        <div class="log-item">[Sistem] Panel admin dimuat</div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="admin-footer">
+        <p>© 2025 BoomerAPPS • CREDITS <span>@VrdanthZZ</span></p>
+    </div>
+
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script src="api.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
